@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vanier College — Board of Governors · Motion Archive</title>
+  <style>
+    /* ── Theme tokens ─────────────────────────────────────────── */
+    :root {
+      --primary:        #8B0000;
+      --primary-h:      #a50000;
+      --primary-d:      #6d0000;
+      --bg:             #ffffff;
+      --bg-alt:         #f6f6f6;
+      --bg-card:        #ffffff;
+      --text:           #1a1a1a;
+      --text-muted:     #606060;
+      --border:         #e0e0e0;
+      --shadow:         rgba(0,0,0,0.07);
+      --row-hover:      #fff4f4;
+      --row-stripe:     #fafafa;
+      --tag-bg:         #efefef;
+      --tag-text:       #4a4a4a;
+      --mark-bg:        #ffe082;
+      --mark-text:      #3d2e00;
+    }
+    [data-theme="dark"] {
+      --bg:             #111111;
+      --bg-alt:         #1c1c1c;
+      --bg-card:        #222222;
+      --text:           #e6e6e6;
+      --text-muted:     #999999;
+      --border:         #303030;
+      --shadow:         rgba(0,0,0,0.35);
+      --row-hover:      #2a1212;
+      --row-stripe:     #181818;
+      --tag-bg:         #2d2d2d;
+      --tag-text:       #bbb;
+      --mark-bg:        #7d5a00;
+      --mark-text:      #ffe082;
+    }
+
+    /* ── Reset ────────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    /* ── Base ─────────────────────────────────────────────────── */
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+                   "Helvetica Neue", Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.55;
+      font-size: 15px;
+      transition: background .2s, color .2s;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ── Header ───────────────────────────────────────────────── */
+    header {
+      background: var(--primary);
+      color: #fff;
+      padding: 1rem 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      box-shadow: 0 2px 10px rgba(0,0,0,.25);
+      flex-shrink: 0;
+    }
+    .hdr-branding {
+      display: flex;
+      align-items: center;
+      gap: .9rem;
+    }
+    .hdr-crest {
+      width: 46px;
+      height: 46px;
+      background: rgba(255,255,255,.15);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+      flex-shrink: 0;
+    }
+    .hdr-text h1 {
+      font-size: clamp(.95rem, 2.5vw, 1.3rem);
+      font-weight: 700;
+      letter-spacing: .01em;
+      line-height: 1.2;
+    }
+    .hdr-text .sub {
+      font-size: .75rem;
+      opacity: .78;
+      margin-top: .15rem;
+      letter-spacing: .03em;
+    }
+    .theme-btn {
+      background: rgba(255,255,255,.15);
+      border: 1px solid rgba(255,255,255,.3);
+      color: #fff;
+      border-radius: 7px;
+      padding: .35rem .85rem;
+      font-size: .8rem;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: background .15s;
+      flex-shrink: 0;
+    }
+    .theme-btn:hover { background: rgba(255,255,255,.28); }
+
+    /* ── Main ─────────────────────────────────────────────────── */
+    main {
+      flex: 1;
+      max-width: 1480px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 1.5rem 1.25rem 2rem;
+    }
+
+    /* ── Stat cards ───────────────────────────────────────────── */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(155px, 1fr));
+      gap: .9rem;
+      margin-bottom: 1.5rem;
+    }
+    .stat-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1rem 1.15rem .9rem;
+      box-shadow: 0 1px 5px var(--shadow);
+      border-top: 3px solid var(--primary);
+      transition: transform .15s, box-shadow .15s;
+    }
+    .stat-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 14px var(--shadow);
+    }
+    .stat-label {
+      font-size: .67rem;
+      text-transform: uppercase;
+      letter-spacing: .09em;
+      color: var(--text-muted);
+      font-weight: 700;
+    }
+    .stat-value {
+      font-size: 1.65rem;
+      font-weight: 800;
+      color: var(--primary);
+      line-height: 1.1;
+      margin: .25rem 0 .15rem;
+      font-variant-numeric: tabular-nums;
+    }
+    .stat-sub {
+      font-size: .7rem;
+      color: var(--text-muted);
+    }
+
+    /* ── Controls bar ─────────────────────────────────────────── */
+    .controls {
+      background: var(--bg-alt);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: .9rem 1.15rem;
+      margin-bottom: 1.1rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: .75rem;
+      align-items: flex-end;
+    }
+    .ctrl-group {
+      display: flex;
+      flex-direction: column;
+      gap: .25rem;
+    }
+    .ctrl-label {
+      font-size: .68rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .07em;
+      color: var(--text-muted);
+    }
+    .ctrl-group select,
+    .ctrl-group input[type="search"] {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      color: var(--text);
+      border-radius: 7px;
+      padding: .42rem .8rem;
+      font-size: .85rem;
+      height: 36px;
+      transition: border-color .15s, box-shadow .15s;
+      min-width: 0;
+    }
+    #searchInput { width: 260px; }
+    #filterCategory, #filterRouting { width: 160px; }
+    .ctrl-group select:focus,
+    .ctrl-group input:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(139,0,0,.12);
+    }
+    .btn-clear {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      border-radius: 7px;
+      padding: .42rem .9rem;
+      font-size: .8rem;
+      cursor: pointer;
+      height: 36px;
+      transition: border-color .15s, color .15s;
+      align-self: flex-end;
+      white-space: nowrap;
+    }
+    .btn-clear:hover { border-color: var(--primary); color: var(--primary); }
+    .results-count {
+      margin-left: auto;
+      align-self: flex-end;
+      font-size: .78rem;
+      color: var(--text-muted);
+      white-space: nowrap;
+      padding-bottom: .25rem;
+    }
+
+    /* ── Table ────────────────────────────────────────────────── */
+    .table-wrap {
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      box-shadow: 0 1px 5px var(--shadow);
+      overflow: hidden;
+      overflow-x: auto;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: .835rem;
+      min-width: 820px;
+    }
+    thead { position: sticky; top: 0; z-index: 10; }
+    th {
+      background: var(--primary);
+      color: #fff;
+      padding: .65rem 1rem;
+      text-align: left;
+      font-size: .7rem;
+      text-transform: uppercase;
+      letter-spacing: .07em;
+      font-weight: 700;
+      white-space: nowrap;
+      user-select: none;
+    }
+    th.sortable { cursor: pointer; }
+    th.sortable:hover { background: var(--primary-h); }
+    .sort-icon {
+      display: inline-block;
+      margin-left: .3rem;
+      font-size: .6rem;
+      opacity: .6;
+    }
+    th.sort-asc  .sort-icon { opacity: 1; }
+    th.sort-desc .sort-icon { opacity: 1; }
+
+    td {
+      padding: .65rem 1rem;
+      border-bottom: 1px solid var(--border);
+      vertical-align: top;
+    }
+    tr:last-child td { border-bottom: none; }
+    tbody tr { background: var(--bg); transition: background .1s; }
+    tbody tr:nth-child(even) { background: var(--row-stripe); }
+    tbody tr:hover { background: var(--row-hover); }
+
+    /* Date col */
+    .col-date { white-space: nowrap; font-variant-numeric: tabular-nums; min-width: 80px; }
+
+    /* Category badge */
+    .badge {
+      display: inline-block;
+      padding: .18rem .55rem;
+      border-radius: 100px;
+      font-size: .68rem;
+      font-weight: 700;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+    .badge-Construction { background: #fff3cd; color: #7d5a00; }
+    .badge-Goods        { background: #d1ecf1; color: #0c5460; }
+    .badge-Services     { background: #d4edda; color: #155724; }
+    .badge-Approvals    { background: #e2d9f3; color: #4a2d7a; }
+    .badge-Other        { background: #efefef; color: #444;    }
+    [data-theme="dark"] .badge-Construction { background: #3d2e00; color: #ffc107; }
+    [data-theme="dark"] .badge-Goods        { background: #003d44; color: #5bc8d7; }
+    [data-theme="dark"] .badge-Services     { background: #1a3a20; color: #66bb6a; }
+    [data-theme="dark"] .badge-Approvals    { background: #2d1f4a; color: #b39ddb; }
+    [data-theme="dark"] .badge-Other        { background: #2d2d2d; color: #bbb;    }
+
+    /* Routing badge */
+    .rbadge {
+      display: inline-block;
+      padding: .15rem .45rem;
+      border-radius: 5px;
+      font-size: .67rem;
+      font-weight: 800;
+      letter-spacing: .05em;
+    }
+    .rbadge-BOG { background: var(--primary); color: #fff; }
+    .rbadge-EC  { background: #555; color: #fff; }
+
+    /* Value */
+    .col-value { text-align: right; white-space: nowrap; font-variant-numeric: tabular-nums; min-width: 130px; }
+
+    /* Methods */
+    .col-method { min-width: 120px; }
+    .methods { display: flex; flex-wrap: wrap; gap: .28rem; }
+    .m-tag {
+      background: var(--tag-bg);
+      color: var(--tag-text);
+      padding: .13rem .4rem;
+      border-radius: 4px;
+      font-size: .67rem;
+      white-space: nowrap;
+    }
+
+    /* Description */
+    .col-desc { max-width: 380px; min-width: 240px; line-height: 1.4; }
+    .notes { font-size: .73rem; color: var(--text-muted); margin-top: .3rem; font-style: italic; }
+
+    /* Highlight */
+    mark { background: var(--mark-bg); color: var(--mark-text); border-radius: 2px; padding: 0 1px; }
+
+    /* Empty state */
+    .empty-state {
+      text-align: center;
+      padding: 3.5rem 1rem;
+      color: var(--text-muted);
+      font-size: .9rem;
+    }
+    .empty-state .icon { font-size: 2.5rem; margin-bottom: .75rem; }
+
+    /* ── Footer ───────────────────────────────────────────────── */
+    footer {
+      background: var(--bg-alt);
+      border-top: 1px solid var(--border);
+      text-align: center;
+      padding: 1.1rem 1rem;
+      font-size: .78rem;
+      color: var(--text-muted);
+      flex-shrink: 0;
+    }
+    footer strong { color: var(--text); font-weight: 600; }
+    .footer-updated { margin-top: .2rem; font-size: .72rem; }
+
+    /* ── Responsive ───────────────────────────────────────────── */
+    @media (max-width: 640px) {
+      header { flex-direction: column; align-items: flex-start; }
+      .theme-btn { align-self: flex-end; }
+      .stats-grid { grid-template-columns: repeat(2, 1fr); }
+      .controls { flex-direction: column; align-items: stretch; }
+      .ctrl-group select,
+      .ctrl-group input[type="search"],
+      #filterCategory,
+      #filterRouting,
+      #searchInput { width: 100%; }
+      .results-count { margin-left: 0; }
+    }
+    @media (max-width: 380px) {
+      .stats-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="hdr-branding">
+    <div class="hdr-crest" aria-hidden="true">🏛</div>
+    <div class="hdr-text">
+      <h1>Vanier College — Board of Governors &middot; Motion Archive</h1>
+      <div class="sub">Procurement &amp; Capital Projects Register</div>
+    </div>
+  </div>
+  <button class="theme-btn" id="themeBtn" aria-label="Toggle colour theme">☀ Light</button>
+</header>
+
+<main>
+  <div class="stats-grid" id="statsGrid" aria-label="Summary statistics"></div>
+
+  <div class="controls" role="search">
+    <div class="ctrl-group">
+      <span class="ctrl-label">Category</span>
+      <select id="filterCategory" aria-label="Filter by category">
+        <option value="">All categories</option>
+        <option>Construction</option>
+        <option>Goods</option>
+        <option>Services</option>
+        <option>Approvals</option>
+        <option>Other</option>
+      </select>
+    </div>
+    <div class="ctrl-group">
+      <span class="ctrl-label">Routed by</span>
+      <select id="filterRouting" aria-label="Filter by routing body">
+        <option value="">BOG &amp; EC</option>
+        <option value="BOG">BOG only</option>
+        <option value="EC">EC only</option>
+      </select>
+    </div>
+    <div class="ctrl-group">
+      <span class="ctrl-label">Keyword search</span>
+      <input type="search" id="searchInput" placeholder="Search descriptions, methods, notes…" autocomplete="off" aria-label="Keyword search">
+    </div>
+    <button class="btn-clear" id="btnClear" aria-label="Clear all filters">Clear</button>
+    <div class="results-count" id="resultsCount" aria-live="polite"></div>
+  </div>
+
+  <div class="table-wrap" role="region" aria-label="Motions table">
+    <table id="motionsTable" aria-label="Board of Governors motions">
+      <thead>
+        <tr>
+          <th class="sortable" data-col="date" aria-sort="none">
+            Date <span class="sort-icon" aria-hidden="true">⇅</span>
+          </th>
+          <th>Category</th>
+          <th>Routing</th>
+          <th class="sortable" data-col="value" aria-sort="none">
+            Value <span class="sort-icon" aria-hidden="true">⇅</span>
+          </th>
+          <th>Method</th>
+          <th>Description &amp; Notes</th>
+        </tr>
+      </thead>
+      <tbody id="tableBody"></tbody>
+    </table>
+  </div>
+</main>
+
+<footer>
+  <strong>Vanier College Procurement Services</strong>
+  <div class="footer-updated">Last updated: May 21, 2026</div>
+</footer>
+
+<script>
+/* ── Data ─────────────────────────────────────────────────────── */
+const MOTIONS = [
+  // CONSTRUCTION
+  { date:"2024-01", category:"Construction", routing:"BOG", valueRaw:55748.55, valueDisplay:"$55,748.55 additional", method:["By-law 9"], description:"Approval of additional expenditures — B-124 bathroom renovation (Construction S.M. Paquet Inc.); unforeseen demolition, concrete slab, drainage. Total contract $471,623.67.", notes:"Modification beyond 10% threshold." },
+  { date:"2024-01", category:"Construction", routing:"BOG", valueRaw:2087000, valueDisplay:"$2,087,000.00", method:["SEAO","By-law 9"], description:"Award of construction contract — new BSL-2 Biology Laboratory, 4th floor Building A (Construction NASCO). Rescinds Dec 2023 pre-approval.", notes:"" },
+  { date:"2024-02", category:"Construction", routing:"BOG", valueRaw:350264, valueDisplay:"$350,264.00", method:["SEAO","By-law 9"], description:"Award of construction contract — Respiratory & Anesthesia Technology laboratories renovation, hospital-like environment (Construction Hub).", notes:"" },
+  { date:"2024-04", category:"Construction", routing:"BOG", valueRaw:203560.28, valueDisplay:"$203,560.28 additional", method:[], description:"DRAFT — Additional expenditures for 404 Décarie construction contract; water infiltration/mold, roofing for new HVAC/AC.", notes:"Draft; superseded by June 2024 version." },
+  { date:"2024-04", category:"Construction", routing:"BOG", valueRaw:203560.28, valueDisplay:"$203,560.28 additional", method:[], description:"Approval of additional expenditures on 404 Décarie renovation contract.", notes:"See also June 2024 updated version." },
+  { date:"2024-06", category:"Construction", routing:"BOG", valueRaw:237897.85, valueDisplay:"$237,897.85 total modifications", method:[], description:"Approval of additional expenditures on 404 Décarie renovation contract (revised).", notes:"" },
+  { date:"2024-06", category:"Construction", routing:"BOG", valueRaw:275581.21, valueDisplay:"$275,581.21 total modifications", method:[], description:"Approval of additional expenditures on facade renovation contract. Original contract $997,970.", notes:"" },
+  { date:"2024-06", category:"Construction", routing:"BOG", valueRaw:6593000, valueDisplay:"$6,593,000 envelope", method:["SEAO","By-law 9"], description:"Award of guaranteed energy savings contract — N Building HVAC replacement (cooling tower, heat pumps, air intake units) with C-Énergie/Ecosave; minimum 95% GHG reduction.", notes:"Secondary: Services (performance contract)." },
+  { date:"2024-07", category:"Construction", routing:"BOG", valueRaw:422539, valueDisplay:"$422,539.00", method:["SEAO","By-law 9"], description:"Award of construction contract — roof repairs.", notes:"" },
+  { date:"2025-03", category:"Construction", routing:"BOG", valueRaw:301095, valueDisplay:"~$301,095+ additional", method:[], description:"Approval of additional expenditures on guaranteed energy savings contract (C-Énergie) — N Building HVAC; expanded ventilation, mechanical rooms, pneumatic controls. Original $6,240,333.", notes:"Related to June 2024 ESE contract." },
+  { date:"2025-06", category:"Construction", routing:"BOG", valueRaw:314029, valueDisplay:"$314,029.00", method:["SEAO","By-law 9"], description:"Award of construction contract — roof basin refurbishment.", notes:"" },
+  { date:"2025-06", category:"Construction", routing:"BOG", valueRaw:110000, valueDisplay:"$110,000.00", method:["By-law 9"], description:"Pre-approval of construction contract — C Building underground drain repair.", notes:"Pre-approval (tender not yet held)." },
+  { date:"2025-06", category:"Construction", routing:"BOG", valueRaw:157047.79, valueDisplay:"$157,047.79 additional", method:[], description:"Approval of additional expenditures — E-500 renovations (Melma). Original $1,638,380.", notes:"" },
+  { date:"2025-06", category:"Construction", routing:"BOG", valueRaw:320651.66, valueDisplay:"$320,651.66 total modifications", method:[], description:"Approval of additional expenditures — facade renovation works (Rainville). Original $997,970.", notes:"See also July 2025 amendment." },
+  { date:"2025-06", category:"Construction", routing:"BOG", valueRaw:300000, valueDisplay:"$300,000 (approx.)", method:["By-law 9"], description:"Pre-approval of construction contract — C4 ceiling reconstruction.", notes:"Pre-approval." },
+  { date:"2025-07", category:"Construction", routing:"BOG", valueRaw:1325188.16, valueDisplay:"$1,325,188.16 revised total", method:[], description:"Amendment to board resolution — additional expenditures on facade renovation contract (Rainville).", notes:"Amends June 2025 Rainville facades motion." },
+  { date:"2026-01", category:"Construction", routing:"BOG", valueRaw:236000, valueDisplay:"$236,000.00", method:["SEAO","By-law 9"], description:"Award of construction contract — roof basin renovation.", notes:"" },
+  { date:"2026-03", category:"Construction", routing:"BOG", valueRaw:1121214, valueDisplay:"$1,121,214.00", method:["SEAO","By-law 9"], description:"Award of construction contract — C & D Building underground drain repair and L Building heating pipe replacement (G. Giuliani Inc.); 3 bidders, 2 compliant. Email resolution. AOP-0352.", notes:"Engineering: Equation Service d'ingénierie intégrés." },
+  { date:"2026-04", category:"Construction", routing:"BOG", valueRaw:954444, valueDisplay:"$954,444.00", method:["SEAO","By-law 9"], description:"Award of construction contract — Heating Boilers Renewal, G Complex (Mécanique Northem); 3 gas-fired and 1 electric boiler. Email resolution. AOP-0353. SEAO no. 20128936.", notes:"7 bidders; 4 compliant; 3 non-compliant (missing signed document). Engineering: BPA; Architects: Cormier Lefebvre." },
+  { date:"2026-05", category:"Construction", routing:"BOG", valueRaw:141800, valueDisplay:"$141,800.00", method:["SEAO","By-law 9"], description:"Award of construction contract — Concrete Structure Repairs, Blocks D, E & F (Constructions CivilTek Inc.); structural repairs to walls, slabs, beams, waterproofing. Email resolution. AOP-0354. SEAO no. 20128417.", notes:"10 bidders; all compliant. Engineering: Ponton Guillot; Architects: Leclerc Architecte." },
+  { date:"2026-05", category:"Construction", routing:"BOG", valueRaw:492500, valueDisplay:"$492,500.00", method:["SEAO","By-law 9"], description:"Award of construction contract — Transformation of Classrooms into an AHT Laboratory (Construction RDF); new lab with two consultation rooms, two student lounge rooms, one storage room. Email resolution. AOP-0350. SEAO no. 20137013.", notes:"5 bidders; 1 compliant after correction of minor non-conformity (missing qualification documents — correction extended to lowest bidder only). Architects: NFOE (Dominic Daoust & Nathalie Monory); Engineering: C-NERGIE (Miguel Costa), GBI (asbestos)." },
+  // GOODS
+  { date:"2024-01", category:"Goods", routing:"BOG", valueRaw:217024, valueDisplay:"$217,024.00", method:["SEAO","By-law 9"], description:"Award of goods contract — 4 multifunctional display screens/scoreboards for gymnasiums (Control Concept Dynamique Inc.).", notes:"" },
+  { date:"2024-03", category:"Goods", routing:"BOG", valueRaw:114451.36, valueDisplay:"$114,451.36", method:["CAG","By-law 9"], description:"Award of goods contract — furniture for 404 Décarie site (Emblm); classroom, staff, conference room fixtures.", notes:"" },
+  { date:"2024-04", category:"Goods", routing:"BOG", valueRaw:230075.47, valueDisplay:"$230,075.47", method:["CAG","By-law 9"], description:"Award of IT contract — Microsoft licenses (395 licenses) via CAG.", notes:"Secondary: Services (SaaS licensing)." },
+  { date:"2024-04", category:"Goods", routing:"BOG", valueRaw:802555, valueDisplay:"$802,555.00", method:["CAG"], description:"Award of goods contract — computers and monitors for 404 Décarie Multimedia program (Groupe Provil); 48 Dell Precision 3660 + 48 Dell Ultrasharp 27\".", notes:"" },
+  { date:"2024-12", category:"Goods", routing:"BOG", valueRaw:503443, valueDisplay:"$503,443.00", method:["CAG","By-law 9"], description:"Yearly computer replacement acquisition — annual refresh cycle.", notes:"" },
+  { date:"2024-12", category:"Goods", routing:"BOG", valueRaw:269181.46, valueDisplay:"$269,181.46", method:["CAG","By-law 9"], description:"Replacement of college WiFi network — end-of-life infrastructure upgrade.", notes:"" },
+  { date:"2025-01", category:"Goods", routing:"BOG", valueRaw:709455.30, valueDisplay:"$709,455.30", method:["By-law 9"], description:"Pre-approval of intercom acquisition contract — campus-wide intercom system.", notes:"Secondary: Construction (installation component); pre-approval." },
+  { date:"2025-04", category:"Goods", routing:"EC", valueRaw:241061.59, valueDisplay:"$241,061.59", method:["CAG","By-law 9"], description:"Award of IT contract — Microsoft licenses (annual renewal) via CAG.", notes:"" },
+  { date:"2025-06", category:"Goods", routing:"BOG", valueRaw:156000, valueDisplay:"$156,000 (est.)", method:["CAG","By-law 9"], description:"Award of supply contract — natural gas (Énergir s.e.c.) for campus heating and lab operations; CAG master agreement.", notes:"26,000 GJ × $6.00/GJ." },
+  { date:"2025-11", category:"Goods", routing:"BOG", valueRaw:135767, valueDisplay:"$135,767", method:["Group purchasing (Collecto)"], description:"Award of procurement contract — C2 IT Service Management software (Sherweb), SaaS, Jan 2026–May 2031; via Collecto.", notes:"Secondary: Services (SaaS)." },
+  { date:"2026-01", category:"Goods", routing:"BOG", valueRaw:0, valueDisplay:"—", method:["CAG","By-law 9"], description:"Yearly computer replacement acquisition — annual refresh cycle.", notes:"" },
+  { date:"2026-02", category:"Goods", routing:"BOG", valueRaw:0, valueDisplay:"—", method:["CAG","By-law 9"], description:"Yearly computer replacement acquisition — annual refresh cycle.", notes:"" },
+  { date:"2026-02", category:"Goods", routing:"EC", valueRaw:262309, valueDisplay:"$262,309.00", method:["By-law 9"], description:"Award of purchase contract — pre-purchase of electric and gas boilers for boiler room replacement.", notes:"Related to 2026-02 boiler professionals motion." },
+  { date:"2026-02", category:"Goods", routing:"BOG", valueRaw:285000, valueDisplay:"$285,000 (revised est.)", method:["CAG","By-law 9"], description:"Approval of amendment to natural gas supply contract (Énergir) — revised volume/value.", notes:"Amends June 2025 natural gas contract." },
+  // SERVICES
+  { date:"2024-01", category:"Services", routing:"BOG", valueRaw:5179720, valueDisplay:"$5,179,720.00", method:["SEAO","By-law 9"], description:"Award of service contract — security/guard services, 5-year term + 2 optional years (Service de protection universel du Canada).", notes:"" },
+  { date:"2024-01", category:"Services", routing:"EC", valueRaw:80000, valueDisplay:"$80,000.00", method:["By-law 9"], description:"Award of service contract — gamified web application for ECQ transversal competency project (Dokoma Conseil).", notes:"Executive Committee motion." },
+  { date:"2024-03", category:"Services", routing:"BOG", valueRaw:0, valueDisplay:"—", method:[], description:"Approval of additional expenditures on web design services contract — Okam firm (original 2019 contract; COVID delays). Original contract $185,190.", notes:"Value redacted in document." },
+  { date:"2024-06", category:"Services", routing:"BOG", valueRaw:5016752, valueDisplay:"$5,016,752", method:["By-law 9","Direct award"], description:"Award of service contract — Skytech 2024–2031 (building management/technical services).", notes:"" },
+  { date:"2024-10", category:"Services", routing:"BOG", valueRaw:605750, valueDisplay:"$605,750.00", method:["SEAO","By-law 9"], description:"Award of service contract — snow removal, 5-year term (Paysagiste Solarco).", notes:"" },
+  { date:"2025-02", category:"Services", routing:"BOG", valueRaw:0, valueDisplay:"—", method:["SEAO","By-law 9"], description:"Award of professional services contract — engineering and architecture professionals for boiler replacement project.", notes:"" },
+  { date:"2025-04", category:"Services", routing:"BOG", valueRaw:0, valueDisplay:"—", method:[], description:"Award of professional services contract — architecture and engineering for multiple capital projects.", notes:"" },
+  { date:"2025-06", category:"Services", routing:"BOG", valueRaw:0, valueDisplay:"—", method:["SEAO","By-law 9"], description:"Award of service contract — landscaping and grounds maintenance.", notes:"" },
+  { date:"2025-09", category:"Services", routing:"BOG", valueRaw:0, valueDisplay:"—", method:[], description:"Award of service contract — security system maintenance.", notes:"" },
+  { date:"2025-10", category:"Services", routing:"BOG", valueRaw:0, valueDisplay:"—", method:["By-law 9"], description:"Award of service contract — elevator maintenance.", notes:"" },
+  { date:"2025-11", category:"Services", routing:"BOG", valueRaw:0, valueDisplay:"—", method:["SEAO","By-law 9"], description:"Award of service contract — waste management and recycling.", notes:"" },
+  { date:"2025-12", category:"Services", routing:"BOG", valueRaw:0, valueDisplay:"—", method:[], description:"Award of professional services contract — engineering for C & D drain and L heating pipe project.", notes:"" },
+  { date:"2026-01", category:"Services", routing:"BOG", valueRaw:0, valueDisplay:"—", method:["By-law 9"], description:"Award of service contract — IT support services.", notes:"" },
+  { date:"2026-02", category:"Services", routing:"BOG", valueRaw:0, valueDisplay:"—", method:[], description:"Award of professional services contract — architecture and engineering for AHT laboratory project (NFOE, C-NERGIE, GBI).", notes:"" },
+  { date:"2026-03", category:"Services", routing:"BOG", valueRaw:0, valueDisplay:"—", method:[], description:"Award of professional services contract — engineering for facade renovation.", notes:"" },
+  { date:"2026-04", category:"Services", routing:"BOG", valueRaw:0, valueDisplay:"—", method:[], description:"Award of service contract.", notes:"" },
+  { date:"2026-05", category:"Services", routing:"BOG", valueRaw:0, valueDisplay:"—", method:[], description:"Award of service contract.", notes:"" },
+  // APPROVALS
+  { date:"2024-01", category:"Approvals", routing:"BOG", valueRaw:0, valueDisplay:"—", method:[], description:"Appointment of Procurement Committee Secretary (Marcelo Valencia, Procurement Advisor) per LCOP.", notes:"" },
+  { date:"2024-06", category:"Approvals", routing:"BOG", valueRaw:0, valueDisplay:"—", method:[], description:"Nomination of external auditors for annual college audit.", notes:"" },
+  { date:"2024-10", category:"Approvals", routing:"BOG", valueRaw:0, valueDisplay:"—", method:[], description:"Adoption of Video Surveillance Policy — privacy compliance, responsibilities, usage rules. Rescinds prior policies.", notes:"" },
+  { date:"2024-11", category:"Approvals", routing:"BOG", valueRaw:6535406, valueDisplay:"$6,535,406 MES grant", method:[], description:"Approval of funding allocation for N-Building cooling tower replacement within HVAC project.", notes:"Related to June 2024 ESE contract (C-Énergie)." },
+  { date:"2024-11", category:"Approvals", routing:"BOG", valueRaw:0, valueDisplay:"—", method:[], description:"Adoption of updated local policy for management personnel — aligns with May 2023 provincial regulations.", notes:"" },
+  { date:"2025-04", category:"Approvals", routing:"BOG", valueRaw:3745000, valueDisplay:"$3,745,000", method:[], description:"Approval of Capital/Renovation Budget for fiscal year 2025–2026; MES allocation $1,791,542; campus deferred maintenance $25.7M identified.", notes:"Board and Executive Committee versions." },
+  { date:"2025-06", category:"Approvals", routing:"BOG", valueRaw:0, valueDisplay:"—", method:[], description:"Approval of By-law 9 (procurement by-law) update.", notes:"" },
+  { date:"2026-03", category:"Approvals", routing:"BOG", valueRaw:0, valueDisplay:"—", method:[], description:"Approval of independent auditor for fiscal year 2025–2026.", notes:"" },
+  { date:"2026-03", category:"Approvals", routing:"BOG", valueRaw:500000, valueDisplay:"Up to $500,000", method:["CAG","By-law 9"], description:"Approval of mandate to join CAG group purchase for computers, laptops, monitors, and tablets.", notes:"CAG total pool $3,876,336." },
+  { date:"2026-03", category:"Approvals", routing:"BOG", valueRaw:11000000, valueDisplay:"$11,000,000 (est.)", method:[], description:"Authorization to submit pool renovation project to PAFIRSPA; 66% provincial / 33% college funding.", notes:"Funding application, not a procurement contract." },
+  // OTHER
+  { date:"2025-09", category:"Other", routing:"BOG", valueRaw:642500, valueDisplay:"$642,500+ in subsidies", method:[], description:"Information document — status update on subsidies under Programme ÉcoPerformance for guaranteed energy savings contract (C-Énergie / N-Building HVAC).", notes:"Not a motion; informational report. Related to June 2024 ESE contract." },
+];
+
+/* ── Utilities ─────────────────────────────────────────────────── */
+function fmtDate(d) {
+  const [y, m] = d.split('-');
+  const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  return months[+m - 1] + ' ' + y;
+}
+
+function fmtMoney(n) {
+  if (n >= 1e6) return '$' + (n / 1e6).toFixed(2) + 'M';
+  if (n >= 1e3) return '$' + n.toLocaleString('en-CA', {maximumFractionDigits: 0});
+  return '$' + n.toFixed(2);
+}
+
+function esc(str) {
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
+}
+
+function highlight(text, term) {
+  if (!term) return esc(text);
+  const safe = esc(text);
+  const safeTerm = term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  return safe.replace(new RegExp(safeTerm, 'gi'), m => '<mark>' + m + '</mark>');
+}
+
+/* ── Stat cards ────────────────────────────────────────────────── */
+function buildStats() {
+  const total      = MOTIONS.length;
+  const totalVal   = MOTIONS.reduce((s, m) => s + m.valueRaw, 0);
+  const bogCount   = MOTIONS.filter(m => m.routing === 'BOG').length;
+  const ecCount    = MOTIONS.filter(m => m.routing === 'EC').length;
+  const catCounts  = {};
+  MOTIONS.forEach(m => { catCounts[m.category] = (catCounts[m.category] || 0) + 1; });
+
+  const constrVal  = MOTIONS.filter(m => m.category === 'Construction').reduce((s, m) => s + m.valueRaw, 0);
+  const goodsVal   = MOTIONS.filter(m => m.category === 'Goods').reduce((s, m) => s + m.valueRaw, 0);
+  const svcVal     = MOTIONS.filter(m => m.category === 'Services').reduce((s, m) => s + m.valueRaw, 0);
+
+  const cards = [
+    { label: 'Total Motions',     value: total,               sub: 'across all categories' },
+    { label: 'Disclosed Value',   value: fmtMoney(totalVal),  sub: 'sum of reported figures' },
+    { label: 'Board (BOG)',       value: bogCount,             sub: bogCount + ' of ' + total + ' motions' },
+    { label: 'Exec. Cmte (EC)',   value: ecCount,              sub: ecCount + ' of ' + total + ' motions' },
+    { label: 'Construction',      value: catCounts['Construction'] || 0, sub: fmtMoney(constrVal) + ' disclosed' },
+    { label: 'Goods',             value: catCounts['Goods'] || 0,        sub: fmtMoney(goodsVal) + ' disclosed' },
+    { label: 'Services',          value: catCounts['Services'] || 0,     sub: fmtMoney(svcVal) + ' disclosed' },
+    { label: 'Approvals / Other', value: (catCounts['Approvals'] || 0) + (catCounts['Other'] || 0), sub: 'policy & budget items' },
+  ];
+
+  const grid = document.getElementById('statsGrid');
+  grid.innerHTML = cards.map(c => `
+    <div class="stat-card">
+      <div class="stat-label">${esc(c.label)}</div>
+      <div class="stat-value">${c.value}</div>
+      <div class="stat-sub">${esc(c.sub)}</div>
+    </div>`).join('');
+}
+
+/* ── Table rendering ────────────────────────────────────────────── */
+let sortCol = 'date';
+let sortDir = 'desc'; // newest first by default
+
+function getFilteredSorted() {
+  const cat    = document.getElementById('filterCategory').value;
+  const route  = document.getElementById('filterRouting').value;
+  const term   = document.getElementById('searchInput').value.trim().toLowerCase();
+
+  let rows = MOTIONS.filter(m => {
+    if (cat   && m.category !== cat)   return false;
+    if (route && m.routing  !== route) return false;
+    if (term) {
+      const hay = [m.date, m.category, m.routing, m.valueDisplay,
+                   m.method.join(' '), m.description, m.notes]
+                  .join(' ').toLowerCase();
+      if (!hay.includes(term)) return false;
+    }
+    return true;
+  });
+
+  rows.sort((a, b) => {
+    let va, vb;
+    if (sortCol === 'date') {
+      va = a.date; vb = b.date;
+      return sortDir === 'asc' ? va.localeCompare(vb) : vb.localeCompare(va);
+    } else {
+      va = a.valueRaw; vb = b.valueRaw;
+      return sortDir === 'asc' ? va - vb : vb - va;
+    }
+  });
+
+  return rows;
+}
+
+function renderTable() {
+  const term = document.getElementById('searchInput').value.trim();
+  const rows = getFilteredSorted();
+  const tbody = document.getElementById('tableBody');
+
+  if (rows.length === 0) {
+    tbody.innerHTML = `<tr><td colspan="6" class="empty-state">
+      <div class="icon">🔍</div>
+      No motions match the current filters.
+    </td></tr>`;
+    document.getElementById('resultsCount').textContent = '0 results';
+    return;
+  }
+
+  const total = MOTIONS.length;
+  document.getElementById('resultsCount').textContent =
+    rows.length === total ? total + ' motions' : rows.length + ' of ' + total + ' motions';
+
+  tbody.innerHTML = rows.map(m => {
+    const methodTags = m.method.length
+      ? '<div class="methods">' + m.method.map(t => `<span class="m-tag">${esc(t)}</span>`).join('') + '</div>'
+      : '<span style="color:var(--text-muted);font-size:.75rem">—</span>';
+
+    const notesHtml = m.notes
+      ? `<div class="notes">${highlight(m.notes, term)}</div>`
+      : '';
+
+    return `<tr>
+      <td class="col-date">${esc(fmtDate(m.date))}</td>
+      <td><span class="badge badge-${esc(m.category)}">${esc(m.category)}</span></td>
+      <td><span class="rbadge rbadge-${esc(m.routing)}">${esc(m.routing)}</span></td>
+      <td class="col-value">${highlight(m.valueDisplay, term)}</td>
+      <td class="col-method">${methodTags}</td>
+      <td class="col-desc">${highlight(m.description, term)}${notesHtml}</td>
+    </tr>`;
+  }).join('');
+}
+
+/* ── Sort controls ──────────────────────────────────────────────── */
+const SORT_ICONS = { asc: '▲', desc: '▼', none: '⇅' };
+
+function updateSortHeaders() {
+  document.querySelectorAll('th.sortable').forEach(th => {
+    const col = th.dataset.col;
+    th.classList.remove('sort-asc', 'sort-desc');
+    const icon = th.querySelector('.sort-icon');
+    if (col === sortCol) {
+      th.classList.add('sort-' + sortDir);
+      th.setAttribute('aria-sort', sortDir === 'asc' ? 'ascending' : 'descending');
+      icon.textContent = SORT_ICONS[sortDir];
+    } else {
+      th.setAttribute('aria-sort', 'none');
+      icon.textContent = SORT_ICONS.none;
+    }
+  });
+}
+
+document.querySelectorAll('th.sortable').forEach(th => {
+  th.addEventListener('click', () => {
+    const col = th.dataset.col;
+    if (sortCol === col) {
+      sortDir = sortDir === 'asc' ? 'desc' : 'asc';
+    } else {
+      sortCol = col;
+      sortDir = col === 'date' ? 'desc' : 'desc';
+    }
+    updateSortHeaders();
+    renderTable();
+  });
+});
+
+/* ── Filter listeners ───────────────────────────────────────────── */
+['filterCategory', 'filterRouting', 'searchInput'].forEach(id => {
+  document.getElementById(id).addEventListener('input', renderTable);
+});
+
+document.getElementById('btnClear').addEventListener('click', () => {
+  document.getElementById('filterCategory').value = '';
+  document.getElementById('filterRouting').value  = '';
+  document.getElementById('searchInput').value    = '';
+  renderTable();
+});
+
+/* ── Dark mode ──────────────────────────────────────────────────── */
+const html = document.documentElement;
+const btn  = document.getElementById('themeBtn');
+
+function applyTheme(dark) {
+  html.setAttribute('data-theme', dark ? 'dark' : 'light');
+  btn.textContent = dark ? '☾ Dark' : '☀ Light';
+}
+
+btn.addEventListener('click', () => {
+  const isDark = html.getAttribute('data-theme') === 'dark';
+  localStorage.setItem('vc-theme', isDark ? 'light' : 'dark');
+  applyTheme(!isDark);
+});
+
+const saved = localStorage.getItem('vc-theme');
+if (saved) {
+  applyTheme(saved === 'dark');
+} else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+  applyTheme(true);
+}
+
+/* ── Init ───────────────────────────────────────────────────────── */
+buildStats();
+updateSortHeaders();
+renderTable();
+</script>
+</body>
+</html>
